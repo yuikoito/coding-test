@@ -1,6 +1,6 @@
 import { createHelloWorld } from "./index";
 
-describe("test for createHelloWorld", () => {
+describe("createHelloWorld function", () => {
   const fn = createHelloWorld();
   test("return Hello World", () => {
     expect(fn()).toBe("Hello World");
