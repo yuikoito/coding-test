@@ -6,3 +6,10 @@
  * @refs https://leetcode.com/problems/debounce/?envType=study-plan-v2&envId=30-days-of-javascript
  */
 
+export const debounce = (fn: Function, t: number) => {
+  let timeoutId;
+  return (...args: number[]) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), t);
+  };
+};
