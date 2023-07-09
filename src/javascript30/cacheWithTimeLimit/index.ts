@@ -7,27 +7,59 @@
  * @refs https://leetcode.com/problems/cache-with-time-limit/?envType=study-plan-v2&envId=30-days-of-javascript
  */
 
+type Cache = {
+  [key: number]: {
+    value: number;
+    timeoutId: NodeJS.Timeout;
+  };
+};
+// using object
 export class CacheWithTimeLimit {
-  private cache = new Map<
-    number,
-    { value: number; timeoutId: NodeJS.Timeout }
-  >();
+  private cache: Cache = {};
   set(key: number, value: number, duration: number) {
-    const existing = this.cache.get(key);
-    if (existing) {
-      clearTimeout(existing.timeoutId);
+    let isAlreadyExist = key in this.cache;
+    if (isAlreadyExist) {
+      clearTimeout(this.cache[key].timeoutId);
     }
     const timeoutId = setTimeout(() => {
-      this.cache.delete(key);
+      delete this.cache[key];
     }, duration);
-    this.cache.set(key, { value, timeoutId });
-    return Boolean(existing);
+    this.cache[key] = {
+      value,
+      timeoutId,
+    };
+    return isAlreadyExist;
   }
   get(key: number) {
-    if (this.cache.has(key)) return this.cache.get(key)?.value;
+    if (key in this.cache) return this.cache[key].value;
     return -1;
   }
   count() {
-    return this.cache.size;
+    return Object.keys(this.cache).length;
   }
 }
+// using map
+// export class CacheWithTimeLimit {
+//   private cache = new Map<
+//     number,
+//     { value: number; timeoutId: NodeJS.Timeout }
+//   >();
+//   set(key: number, value: number, duration: number) {
+//     const existing = this.cache.get(key);
+//     if (existing) {
+//       clearTimeout(existing.timeoutId);
+//     }
+//     const timeoutId = setTimeout(() => {
+//       this.cache.delete(key);
+//     }, duration);
+//     this.cache.set(key, { value, timeoutId });
+//     return Boolean(existing);
+//   }
+//   get(key: number) {
+//     if (this.cache.has(key)) return this.cache.get(key)?.value;
+//     return -1;
+//   }
+//   count() {
+//     return this.cache.size;
+//   }
+// }
