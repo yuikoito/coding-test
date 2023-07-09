@@ -29,4 +29,14 @@ describe("CacheWithTimeLimit class", () => {
     expect(cacheWithTimeLimit.count()).toBe(1);
     expect(cacheWithTimeLimit.get(1)).toBe(3);
   });
+  test("set multiple caches", () => {
+    const cacheWithTimeLimit = new CacheWithTimeLimit();
+    cacheWithTimeLimit.set(1, 2, 10);
+    cacheWithTimeLimit.set(2, 4, 20);
+    expect(cacheWithTimeLimit.count()).toBe(2);
+    jest.advanceTimersByTime(10);
+    expect(cacheWithTimeLimit.count()).toBe(1);
+    expect(cacheWithTimeLimit.get(1)).toBe(-1);
+    expect(cacheWithTimeLimit.get(2)).toBe(4);
+  });
 });
