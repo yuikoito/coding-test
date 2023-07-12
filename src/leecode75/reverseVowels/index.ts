@@ -4,28 +4,44 @@
  * https://leetcode.com/problems/reverse-vowels-of-a-string/?envType=study-plan-v2&envId=leetcode-75
  */
 
+// export const reverseVowels = (s: string): string => {
+//   const strings = s.split("");
+//   const tempVowels: string[] = [];
+//   const reversedStrings: string[] = [];
+//   const vowels = ["a", "e", "i", "o", "u"];
+//   strings.forEach((s) => {
+//     if (vowels.includes(s.toLowerCase())) {
+//       reversedStrings.push("-");
+//       tempVowels.push(s);
+//     } else {
+//       reversedStrings.push(s);
+//     }
+//   });
+//   tempVowels.reverse();
+//   let count = 0;
+//   while (reversedStrings.findIndex((s) => s === "-") >= 0) {
+//     reversedStrings.splice(
+//       reversedStrings.findIndex((s) => s === "-"),
+//       1,
+//       tempVowels[count]
+//     );
+//     count++;
+//   }
+//   return reversedStrings.join("");
+// };
+
+// faster and better
 export const reverseVowels = (s: string): string => {
   const strings = s.split("");
-  const tempVowels: string[] = [];
-  const reversedStrings: string[] = [];
-  const vowels = ["a", "e", "i", "o", "u"];
-  strings.forEach((s) => {
-    if (vowels.includes(s.toLowerCase())) {
-      reversedStrings.push("-");
-      tempVowels.push(s);
-    } else {
-      reversedStrings.push(s);
-    }
-  });
-  tempVowels.reverse();
+  const tempVowels: string[] = strings
+    .filter((_) => "aeiouAEIOU".includes(_))
+    .reverse();
   let count = 0;
-  while (reversedStrings.findIndex((s) => s === "-") >= 0) {
-    reversedStrings.splice(
-      reversedStrings.findIndex((s) => s === "-"),
-      1,
-      tempVowels[count]
-    );
-    count++;
+  for (let i = 0; i < strings.length; i++) {
+    if ("aeiouAEIOU".includes(strings[i])) {
+      strings.splice(i, 1, tempVowels[count]);
+      count++;
+    }
   }
-  return reversedStrings.join("");
+  return strings.join("");
 };
